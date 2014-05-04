@@ -12,7 +12,7 @@ RUN apt-get update
 RUN apt-get -y upgrade
 
 # Basic Requirements
-RUN apt-get -y install mysql-server mysql-client nginx php5-fpm php5-mysql php-apc pwgen python-setuptools curl git unzip
+RUN apt-get -y install mysql-server mysql-client nginx php5-fpm php5-mysql php-apc pwgen python-setuptools curl git unzip openssh-server vim rpl
 
 # Wordpress Requirements
 RUN apt-get -y install php5-curl php5-gd php5-intl php-pear php5-imagick php5-imap php5-mcrypt php5-memcache php5-ming php5-ps php5-pspell php5-recode php5-sqlite php5-tidy php5-xmlrpc php5-xsl
@@ -53,7 +53,20 @@ RUN chown -R www-data:www-data /usr/share/nginx/www
 ADD ./start.sh /start.sh
 RUN chmod 755 /start.sh
 
+# Setup ssh
+RUN mkdir /var/run/sshd
+# Ubuntu 14.04 by default only allows non pwd based root login
+# We disable that but also create an .ssh dir so you can copy
+# up your key. NOTE: This is not a particularly robust setup 
+# security wise and we recommend to NOT expose ssh as a public
+# service.
+RUN rpl "PermitRootLogin without-password" "PermitRootLogin yes" /etc/ssh/sshd_config
+RUN mkdir /root/.ssh
+RUN chmod o-rwx /root/.ssh
+RUN echo 'root:changeme' | chpasswd
+
 # private expose
 EXPOSE 80
+EXPOSE 22
 
 CMD ["/bin/bash", "/start.sh"]
