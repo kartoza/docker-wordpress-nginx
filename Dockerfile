@@ -8,6 +8,11 @@ RUN ln -sf /bin/true /sbin/initctl
 # Let the conatiner know that there is no tty
 ENV DEBIAN_FRONTEND noninteractive
 
+# Use local cached debs from host (saves your bandwidth!)
+# Change ip below to that of your apt-cacher-ng host
+# Or comment this line out if you do not with to use caching
+ADD 71-apt-cacher-ng /etc/apt/apt.conf.d/71-apt-cacher-ng
+
 RUN apt-get update
 RUN apt-get -y upgrade
 
@@ -63,7 +68,10 @@ RUN mkdir /var/run/sshd
 RUN rpl "PermitRootLogin without-password" "PermitRootLogin yes" /etc/ssh/sshd_config
 RUN mkdir /root/.ssh
 RUN chmod o-rwx /root/.ssh
-# Password is set in start.sh and echoed to docker logs
+# Root password is set in start.sh and echoed to docker logs
+
+# Remove any locally cached packages
+RUN apt-get autoclean 
 
 # private expose
 EXPOSE 80
