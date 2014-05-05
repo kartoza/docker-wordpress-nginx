@@ -7,11 +7,14 @@ if [ ! -f /usr/share/nginx/www/wp-config.php ]; then
   WORDPRESS_DB="wordpress"
   MYSQL_PASSWORD=`pwgen -c -n -1 12`
   WORDPRESS_PASSWORD=`pwgen -c -n -1 12`
+  ROOT_PASSWORD=`pwgen -c -n -1 12`
   #This is so the passwords show up in logs. 
   echo mysql root password: $MYSQL_PASSWORD
   echo wordpress password: $WORDPRESS_PASSWORD
+  echo root login password: $ROOT_PASSWORD
   echo $MYSQL_PASSWORD > /mysql-root-pw.txt
   echo $WORDPRESS_PASSWORD > /wordpress-db-pw.txt
+  echo 'root:$ROOT_PASSWORD' | chpasswd
 
   sed -e "s/database_name_here/$WORDPRESS_DB/
   s/username_here/$WORDPRESS_DB/

@@ -63,7 +63,7 @@ RUN mkdir /var/run/sshd
 RUN rpl "PermitRootLogin without-password" "PermitRootLogin yes" /etc/ssh/sshd_config
 RUN mkdir /root/.ssh
 RUN chmod o-rwx /root/.ssh
-RUN echo 'root:changeme' | chpasswd
+# Password is set in start.sh and echoed to docker logs
 
 # private expose
 EXPOSE 80

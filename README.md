@@ -43,3 +43,9 @@ You can the visit the following URL in a browser on your host machine to get sta
 ```
 http://127.0.0.1:<port>
 ```
+
+To find out the passwords allocated (wp, mysql and root login) do:
+
+```
+docker logs <container name> | grep password
+```
