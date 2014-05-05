@@ -14,7 +14,8 @@ if [ ! -f /usr/share/nginx/www/wp-config.php ]; then
   echo root login password: $ROOT_PASSWORD
   echo $MYSQL_PASSWORD > /mysql-root-pw.txt
   echo $WORDPRESS_PASSWORD > /wordpress-db-pw.txt
-  echo 'root:$ROOT_PASSWORD' | chpasswd
+  # Double quotes needed for var substitution
+  echo "root:$ROOT_PASSWORD" | chpasswd
 
   sed -e "s/database_name_here/$WORDPRESS_DB/
   s/username_here/$WORDPRESS_DB/
