@@ -9,7 +9,7 @@ You can check out his [Apache version here](https://github.com/jbfink/docker-wor
 ## Installation
 
 ```
-$ git clone https://github.com/eugeneware/docker-wordpress-nginx.git
+$ git clone https://github.com/timlinux/docker-wordpress-nginx.git
 $ cd docker-wordpress-nginx
 $ sudo docker build -t="docker-wordpress-nginx" .
 ```
